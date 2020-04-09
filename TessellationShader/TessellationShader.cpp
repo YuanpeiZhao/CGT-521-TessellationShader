@@ -31,9 +31,9 @@ void draw_gui()
 {
    ImGui_ImplGlut_NewFrame();
 
-   const int n_sliders = 4;
+   const int n_sliders = 6;
    static float slider[n_sliders] = { 1.0f,1.0f,1.0f,1.0f };
-   const std::string labels[n_sliders] = {"gl_TessLevelOuter[0]","gl_TessLevelOuter[1]","gl_TessLevelOuter[2]","gl_TessLevelInner[0]"};
+   const std::string labels[n_sliders] = {"gl_TessLevelOuter[0]","gl_TessLevelOuter[1]","gl_TessLevelOuter[2]","gl_TessLevelOuter[3]","gl_TessLevelInner[0]","gl_TessLevelInner[1]" };
    for (int i = 0; i<n_sliders; i++)
    {
       ImGui::SliderFloat(labels[i].c_str(), &slider[i], 1, 32);
@@ -52,10 +52,10 @@ void display()
    glUseProgram(shader_program);
 
    glBindVertexArray(patch_vao);
-   glPatchParameteri(GL_PATCH_VERTICES, 3); //number of input verts to the tess. control shader per patch.
+   glPatchParameteri(GL_PATCH_VERTICES, 4); //number of input verts to the tess. control shader per patch.
 
    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Draw wireframe so we can see the edges of generated triangles
-	glDrawArrays(GL_PATCHES, 0, 3); //Draw patches since we are using a tessellation shader.
+	glDrawArrays(GL_PATCHES, 0, 8); //Draw patches since we are using a tessellation shader.
    
    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    draw_gui();
@@ -143,7 +143,8 @@ void initOpenGl()
 
    float vertices[] = {-1.0f, -1.0f, 0.0f, 
                         1.0f, -1.0f, 0.0f, 
-                        0.0f, 1.0f, 0.0f};
+                        1.0f, 1.0f, 0.0f,
+						-1.0f, 1.0f, 0.0f };
    
    //create vertex buffers for vertex coords
    glGenBuffers(1, &patch_vbo);
